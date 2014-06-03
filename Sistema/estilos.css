@@ -1,0 +1,103 @@
+body {
+    background-image:url("./Imagenes/Fondo.png");
+    text-align:center;
+}
+
+.contenedor {
+	width:835px;
+	margin:auto;
+}
+
+.encabezado {
+ background-image:url("./Imagenes/banner.png");
+ width:800px;
+ height:100px;
+ background-repeat:no-repeat;
+}
+
+.logo {
+ background-image:url("./Imagenes/Logo.png");
+ float: left;
+ width:200px;
+ height:134px;
+}
+
+.logeo{
+float:left;
+margin-left:20px;
+margin-top:60px;
+font-size:20px;
+}
+
+a:link {
+color:#FFFFFF;
+text-decoration:none;
+}
+
+a:visited {
+color:#FFFFFF;
+}
+
+.sesion {
+ margin-top:10px;
+}
+
+.columna {
+ float:left;
+ background-image:url("./Imagenes/columna.png");
+ width:200px;
+ height:1130px;
+
+}
+
+.titulos{ 
+  margin-bottom:0;
+  color:#000000;
+  font-style:bold;
+  font-size:30px;
+  margin-top:25px;
+}
+
+.tabla {
+     float:right;
+     margin-right:120px;
+	 border-top:1px solid #ccc;
+	 border-left:1px solid #ccc;
+	 background-color:#eee;
+	 color: gray;
+	 text-align:center;
+	 font-family:arial,verdana,times;
+ }
+ 
+
+.menu {
+  float: right;
+  padding-right:20px;
+}
+
+.principal{
+height:1110px;
+width:800px;
+float:left;
+}
+
+.fondoContenedorTop{
+	background-image:url("./Imagenes/panel_arriba.png");
+	height:14px;
+}
+.fondoContenedorMain{
+	background-image:url("./Imagenes/panel_medio.png");
+	padding-left:16px; 
+}
+.fondoContenedorBottom{
+	background-image:url("./Imagenes/panel_abajo.png");
+	height:14px;
+	background-repeat:no-repeat;
+}
+
+.piedepagina{
+padding-top:20px;
+clear:both;
+text-align:center;
+}
+
