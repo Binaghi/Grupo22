@@ -52,6 +52,14 @@
 	color: #ebebeb;
 }
 
+
+.login-box-options  {
+	clear:both;
+	padding-left:87px;
+	font-size: 11px;
+	margin-bottom:20px;
+}
+
 .olvidar {
    float:right;
    margin-top:5px;
@@ -69,11 +77,12 @@
  margin-left:90px; 
 }
 
-
-.boton2 {
- width:103; 
- height:42; 
- margin-left:195px;
- margin-top:-40px; 
+a:link {
+font-size:15px;
+color:#FFFFFF;
+text-decoration:none;
 }
 
+a:visited {
+color:#FFFFFF;
+}

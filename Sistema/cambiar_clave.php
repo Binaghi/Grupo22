@@ -1,7 +1,5 @@
 <?php
-   $borrar = $_POST['modificar'];
-   $ape = $_POST['ape'];
-   $nom = $_POST['nom'];
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -14,12 +12,14 @@
 $(function() {
     $("#formid").validate({
         rules: {
-            mod: { required: true, minlength: 2},
-            ape: { required: true, minlength: 2}
+            dni: { required: true, number: true, minlength: 8},
+            clave: { required: true, minlength: 6},
+            clave2: { required: true, minlength: 6, equalTo: "#clave"},
         },
         messages: {
-            mod: "Introducir Nombre de Autor!!",
-            ape: "Introducir Apellido de Autor!!",
+            dni: {required: "Ingrese su DNI", number: "Debe ingresar solo numeros", minlenght: "El DNI debe tener 8 carateres"},
+            clave: {required: "Introducir Clave!!", minlenght: "La clave debe tener al menos 6 carateres"},
+			clave2: {required: "Confirmar clave", minlenght: "La clave debe tener al menos 6 carateres", equalTo:"Las claves introducidas no son iguales"},
         },
     });
 }); 
@@ -36,28 +36,21 @@ $(function() {
 	  <div class="encabezado">
 		  <div class="logo"></div>
 		<div class="menu">
-				<div class="logeo">
-					    <a href="./editorial.php">Editorial</a>
-						<a href="./categoria.php">Categoria</a>
-					<!--	<a href="./libro.php">Libro  &nbsp;</a> -->
-	            </div>
 		</div>
 	  </div>
 		<div class="principal">
 				  <div class="columna">
-						<div class="sesion"><a href='cerrarSesion.php'>Cerrar sesion</a></div>
 				  </div>
 				     <div class= "modificar">
-							<H1>Modificando Editorial</H1>
-							<H2>(Datos a modificar: <?php echo $nom,$ape ?>)</H2>
-							<form id="formid" method = "post" action = "actionModificarAutor.php">
-								<p><b>Nombre:</b><input type="text" name="mod" id="mod" size="30" maxlength="30"></p>	
-								<p><b>Apellido: </b><input type="text" name="ape" id="ape" size="30" maxlength="30"></p>
-								<input type="hidden" name="modificado" value=<?php echo $borrar ?>>
+							<H1>Modificando Clave</H1>
+							<form id="formid" method = "post" action = "actionMoidificarClave.php">
+								<p><b>DNI:</b><input type="text" name="dni" id="dni" size="30" maxlength="30"></p>
+								<p><b>Clave: </b><input type="password" name="clave" id="clave" size="20" maxlength="15"></p>
+								<p><b>Confirmar Clave: </b><input type="password" name="clave2" id="clave2" size="20" maxlength="15"></p>
 								<input type="image" height=34; name="imagen" src="./Imagenes/BOTON-ENVIAR.png">   
 							</form>	
 							    <div class="boton">
-								 <form method = "post" action = "autor.php">
+								 <form method = "post" action = "index.php">
 										<input type="image" name="imageField" src="./Imagenes/BOTON-CANCELAR.png">
 								 </form>
 								</div>

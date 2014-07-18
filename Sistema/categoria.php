@@ -1,5 +1,7 @@
-<?php session_start();
-      include('conectar.php');
+<?php 
+   session_start(); 
+   if ($_SESSION['estado'] == "logeado"){   
+   include('conectar.php');
      
 	if ( isset($_GET['error'])  and  $_GET['error'] == '1' ){?>
 		<script language="javascript"> alert("La categoria ya se encuentra en la Base de Datos"); </script>
@@ -22,27 +24,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 </html>
 <head>
- <!-- Funcion para abrir ventana emergente -->
-
-	<script type="text/javascript">
-	   fuction ventana () {
-			var top = (new Number (screen.height) / 2) - (400 / 2);
-			var left = (new Number (screen.width) / 2) - (700 / 2);
-			window.open('seeker','top=' + top +',left=' + left +',toolbars=no, scrollbars=yes,width=700,height=400')  
-	   } 
-    </script>
- 
-  <script>
-		function valida_editorial(){ 
-				//valido el nombre 
-				if (document.feditorial.agregar.value.length==0){ 
-					 alert("Tiene que escribir el nombre de la categoria") ;
-					 document.feditorial.nombre.focus() ;
-					 return 0; 
-				} 
-				document.fvalida.submit(); 
-			}
-  </script>   
+<script src="jquery-1.11.1.js" type="text/javascript"></script>
+<script src="jquery.validate.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+    $("#formid").validate({
+        rules: {
+            agregar: { required: true, minlength: 2},
+        },
+        messages: {
+            agregar: "Introducir Nombre de Categoria!!",
+        },
+    });
+}); 
+</script>  
  
  <title>:: Categoria ::</title>
  <link rel="stylesheet" href="estilos.css"/>
@@ -55,27 +50,31 @@
 		  <div class="logo"></div>
 		<div class="menu">
 				<div class="logeo">
-						<a href="./editorial.php">Editorial  &nbsp;</a>
-						<a href="./autor.php">Autor  &nbsp;</a>
-				<!--		<a href="./libro.php">Libro  &nbsp;</a> -->
+					    <a href="./Backend.php">Inicio</a>
+						<a href="./editorial.php">Editorial</a>
+						<a href="./autor.php">Autor</a>
+				        <a href="./libro.php">Libro</a>
 	            </div>
 		</div>
 	  </div>
 		<div class="principal">
 				  <div class="columna">
 						<div class="sesion"><a href='cerrarSesion.php'>Cerrar sesion</a></div>
+						<div class="sesion"><a href='EstadoVenta.php'>Ver Ventas</a></div>
+						<div class="sesion"><a href='stock.php'>STOCK</a></div>
 				  </div>
-				  <form name="feditorial" action="actionAgregarCategoria.php" method="post">
+				  <h2>Seccion Categoria (Alta, Baja y Modificacion)</h2>
+				  <form id="formid" method="post" action="actionAgregarCategoria.php">
 						  <table> 
 							  <tr> 
-								   <td><input type="image" name="boton_agregar" width=50px; height=50px; src="./Imagenes/agregar.png" onclick="valida_editorial()"></td> 
-								   <td><input type="text" name="agregar" size="30" maxlength="30"></td> 
+								   <td><input type="image" name="boton_agregar" width=50px; height=50px; src="./Imagenes/agregar.png"></td> 
+								   <td><input type="text" name="agregar" id="agregar" size="30" maxlength="30"></td> 
 							  </tr> 
 						  </table>
 				  </form>
 				  <div class="tabla">
 						  	  
-								 <table border="1" cellpadding="10">
+								 <table width="550px" border="1" cellpadding="10">
 									  <?php while ($arreglo = mysqli_fetch_array($result)) { $eliminar = $arreglo['nombre_categoria'] ?>
 											<tr>
 											<td><?php echo $arreglo["nombre_categoria"] ?></td>
@@ -100,3 +99,8 @@
 </body>
  
 </html>
+<?php } 
+       else { 
+		  header("Location: login.php?error=1"); 
+		   } 
+?>

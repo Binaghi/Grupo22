@@ -1,5 +1,7 @@
-<?php session_start();
-      include('conectar.php');
+<?php 
+   session_start(); 
+   if ($_SESSION['estado'] == "logeado"){   
+   include('conectar.php');
       
 	if ( isset($_GET['error'])  and  $_GET['error'] == '1' ){?>
 		<script language="javascript"> alert("El autor ya se encuentra en la Base de Datos"); </script>
@@ -22,20 +24,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 </html>
 <head>
- 
-  <script>
-		function valida_autor(){ 
-				//valido el nombre 
-				if (document.fautor.agregar.value.length==0){ 
-					 alert("Tiene que escribir el nombre del autor") ;
-					 document.fautor.nombre.focus() ;
-					 return 0; 
-				} 
+<script src="jquery-1.11.1.js" type="text/javascript"></script>
+<script src="jquery.validate.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+    $("#formid").validate({
+        rules: {
+            agregar: { required: true, minlength: 2},
+            agregar_ape: { required: true, minlength: 2}
+        },
+        messages: {
+            agregar: "Introducir Nombre de Autor!!",
+            agregar_ape: "Introducir Apellido de Autor!!",
+        },
+    });
+}); 
+</script>
 
-				document.fvalida.submit(); 
-			}
-  </script>   
- 
  <title>:: Autor ::</title>
  <link rel="stylesheet" href="estilos.css"/>
  </head>
@@ -47,33 +52,42 @@
 		  <div class="logo"></div>
 		<div class="menu">
 				<div class="logeo">
-					    <a href="./editorial.php">Editorial  &nbsp;</a>
-						<a href="./categoria.php">Categoria  &nbsp;</a>
-					<!--	<a href="./libro.php">Libro  &nbsp;</a> -->
+					    <a href="./Backend.php">Inicio</a>
+					    <a href="./editorial.php">Editorial</a>
+						<a href="./categoria.php">Categoria</a>
+					    <a href="./libro.php">Libro</a>
 	            </div>
 		</div>
 	  </div>
 		<div class="principal">
 				  <div class="columna">
 						<div class="sesion"><a href='cerrarSesion.php'>Cerrar sesion</a></div>
+						<div class="sesion"><a href='EstadoVenta.php'>Ver Ventas</a></div>
+						<div class="sesion"><a href='stock.php'>STOCK</a></div>
 				  </div>
-				  <form name="fautor" action="actionAgregarAutor.php" method="post">
+				  <h2>Seccion Autor (Alta, Baja y Modificacion)</h2>
+				  <form id="formid" method="post" action="actionAgregarAutor.php">
 						  <table> 
 							  <tr> 
 								   <td><input type="image" name="boton_agregar" width=50px; height=50px; src="./Imagenes/agregar.png" onclick="valida_autor()"></td> 
-								   <td>Nombre: <input type="text" name="agregar" size="30" maxlength="30"></td>
-								   <td>Apellido: <input type="text" name="agregar_ape" size="30" maxlength="30"></td>  
+								   <p><td><b>Nombre: </b><input type="text" name="agregar" id="agregar" size="30" maxlength="30"></td></p>
+								   <p><td><b>Apellido: </b><input type="text" name="agregar_ape" id="agregar_ape" size="30" maxlength="30"></td></p>  
 							  </tr> 
 						  </table>
 				  </form>
 				  <div class="tabla">
-								 <table border="1" cellpadding="10">
-									  <?php while ($arreglo = mysqli_fetch_array($result)) { $eliminar = $arreglo['id_autor'] ?>
+								 <table width="550px" border="1" cellpadding="10">
+									  <?php while ($arreglo = mysqli_fetch_array($result)) {
+										   $eliminar = $arreglo['id_autor'];
+										   $nom = $arreglo['nombre_autor'];
+										   $ape = $arreglo['apellido_autor'];?>
 											<tr>
 											<td><?php echo $arreglo["nombre_autor"] ?></td>
 											<td><?php echo $arreglo["apellido_autor"] ?></td>
 											<form action="modificar_autor.php" method="post">
 													<td><input type="image" name="modificar" value=<?php echo $eliminar ?> width=30px; height=30px; src="./Imagenes/modificar.png"></td>
+                                                    <input type="hidden" name="ape" value=<?php echo $ape ?>>
+												    <input type="hidden" name="nom" value=<?php echo $nom ?>>
 											</form>
 											<form action="actionEliminarAutor.php" method="post">	  
 												<td><input type="image" name="eliminar" value=<?php echo $eliminar ?> width=30px; height=30px; src="./Imagenes/eliminar.png"></td>
@@ -92,3 +106,8 @@
 </body>
  
 </html>
+<?php } 
+       else { 
+		  header("Location: login.php?error=1"); 
+		   } 
+?>

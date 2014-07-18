@@ -1,30 +1,23 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) session_start();
 $usuario = $_POST['usuario'];
 $clave = $_POST['clave']; 
 include ("conectar.php");
-$resultado = mysqli_query("SELECT nombre_usuario FROM administrador WHERE nombre_usuario = Susuario AND contraseña = $clave");
+$resultado2 = mysqli_query($link,"SELECT nombre_usuario,id_cliente FROM cliente WHERE nombre_usuario = '$usuario' AND clave = '$clave'");
+$resultado = mysqli_query($link,"SELECT nombre_usuario FROM administrador WHERE nombre_usuario = '$usuario' AND clave = '$clave'");
 if (mysqli_num_rows($resultado)) { 
 	 $_SESSION['usuario'] = $usuario; 
-	 $_SESSION['clave'] = $clave;
+	 $_SESSION['estado'] = "logeado";
 	 header ("Location: Backend.php");
-	 }
-	else {
-	   $msg = "Datos erroneos!!. <a href=\"login.html\">Intentar de nuevo.</a>";}
-	?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-	<head>
-		<title>sin título</title>
-
-	</head>
-
-	<body>
-		
-	<p><?php echo $msg ?></p>	
-
-	</body>
-
-	</html>
+ }
+elseif (mysqli_num_rows($resultado2)) { 
+	     $actual = mysqli_fetch_array($resultado2);
+		 $_SESSION['usuario'] = $usuario; 
+         $_SESSION['id'] = $actual["id_cliente"];
+		 $_SESSION['estado2'] = "logeado";
+		 header ("Location: index.php?error=0");
+		}	
+else{
+ 	header ("Location: login.php?error=2");
+    }
+?>
